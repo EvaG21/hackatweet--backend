@@ -19,8 +19,7 @@ router.post("/add", (req, res) => {
 
     Hashtags.findOne({ hashtag: postedHashtag }).then((data) => {
       if (data) {
-        data
-          .updateOne({ hashtag: postedHashtag }, { $inc: {counter: + 1}  })
+        Hashtags.updateOne({ hashtag: postedHashtag }, { $inc: {'counter': 1}  })
           .then((data) => {
             res.json({
               result: true,
