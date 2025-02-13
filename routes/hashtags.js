@@ -4,36 +4,47 @@ require("../models/connection");
 const Hashtags = require("../models/hashtags");
 
 router.get("/all", (req, res) => {
-  Hashtags.find()
-    .then((response) => response.json())
-    .then((data) => {
-      if (data) {
-        res.json({ result: true, Hashtags: data });
-      }
-
-      res.json({ result: false, error: "Can't reach hashtags/all" });
-    });
+  Hashtags.find().then((data) => {
+    if (data) {
+      res.json({ result: true, Hashtags: data });
+      return;
+    }
+    res.json({ result: false, error: "Can't reach hashtags/all" });
+    return;
+  });
 });
 
 router.post("/add", (req, res) => {
   const postedHashtag = req.body.hashtag;
 
-  Hashtags.find()
-    .then((response) => response.json())
-    .then((data) => {
-      const isExist = data.findOne(
-        (element) => element.hashtag === postedHashtag
-      );
-      if (isExist) {
+    Hashtags.findOne({ hashtag: postedHashtag }).then((data) => {
+      if (data) {
         data
-          .updateOne({ hashtag: postedHashtag }, { $inc: { counter: +1 } })
-          .then((response) => response.json())
+          .updateOne({ hashtag: postedHashtag }, { $inc: {counter: + 1}  })
           .then((data) => {
-            res.json({ result: true, hashtagUpdate: data.hashtag });
+            res.json({
+              result: true,
+              hashtagUpdate:
+                "Hashtag updated"
+            });
+            return;
           });
+      } else {
+        const newHashtag = new Hashtags({
+          hashtag: postedHashtag,
+          counter: 0,
+        });
+
+        newHashtag.save().then((data) => {
+          res.json({
+            result: true,
+            statut: "New hashtag created : " + data.hashtag,
+          });
+          return;
+        });
       }
-      res.json({ result: true });
     });
-});
+  });
+  
 
 module.exports = router;

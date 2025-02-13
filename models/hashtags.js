@@ -3,5 +3,5 @@ const hashtagSchema = mongoose.Schema({
     hashtag: String,
     counter: Number,
 })
-const  Hashtags= mongoose.model('', hashtagSchema)
+const  Hashtags = mongoose.model('hashtags', hashtagSchema)
 module.exports = Hashtags;
