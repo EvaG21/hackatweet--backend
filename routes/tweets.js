@@ -10,7 +10,6 @@ router.get("/all", (req, res) => {
     })
 });
 
-
 /* POST tweets/add */
 router.post('/add', (req, res) => {
     const newTweet = new Tweet({
@@ -18,6 +17,7 @@ router.post('/add', (req, res) => {
         date: req.body.date,
         firstName: req.body.firstName,
         username: req.body.username,
+        token: req.body.token,
         likesCounter: 0,
         likers: [],
     })
@@ -25,5 +25,16 @@ router.post('/add', (req, res) => {
         res.json(data)
     })
 })
+
+/* DELETE tweets/deleteOne */
+router.delete('/deleteOne/:id', (req, res) => {
+    Tweet.deleteOne({ _id: req.params.id})
+    .then(() => {
+        Tweet.find().then((data) => {
+            res.json({ data });
+        })
+    })
+})
+
 
 module.exports = router;
