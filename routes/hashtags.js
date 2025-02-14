@@ -6,7 +6,7 @@ const Hashtags = require("../models/hashtags");
 router.get("/all", (req, res) => {
   Hashtags.find().then((data) => {
     if (data) {
-      res.json({ result: true, Hashtags: data });
+      res.json({ result: true, hashtags: data });
       return;
     }
     res.json({ result: false, error: "Can't reach hashtags/all" });
@@ -31,7 +31,7 @@ router.post("/add", (req, res) => {
       } else {
         const newHashtag = new Hashtags({
           hashtag: postedHashtag,
-          counter: 0,
+          counter: 1,
         });
 
         newHashtag.save().then((data) => {
