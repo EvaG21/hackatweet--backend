@@ -15,7 +15,7 @@ router.post('/add', (req, res) => {
     const newTweet = new Tweet({
         description: req.body.description,
         date: req.body.date,
-        firstName: req.body.firstName,
+        firstname: req.body.firstname,
         username: req.body.username,
         token: req.body.token,
         likesCounter: 0,
